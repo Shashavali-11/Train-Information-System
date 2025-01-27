@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Search Between Stations</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-image: url("https://img.freepik.com/premium-photo/modern-background-with-steam-train-bridge-generative-ai_887552-394.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+        color: #fff;
+        text-align: center;
+      }
+
+      /* Navbar Styles */
+      .navbar {
+        padding: 10px 20px;
+        background: rgba(0, 0, 0, 0.3);
+      }
+      img {
+        border-radius: 20px;
+      }
+
+      .navbar-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        width: 100px; /* Adjust size as needed */
+        height: 30px;
+      }
+
+      .navbar-nav {
+        display: flex;
+        gap: 65px;
+      }
+
+      .nav-link {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+      }
+
+      .nav-link:hover {
+        text-decoration: underline;
+      }
+      .nav-link:hover {
+        color: black !important;
+      }
+
+      #root {
+        padding: 2rem;
+      }
+
+      select,
+      button {
+        width: 250px;
+        padding: 10px;
+        margin: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: none;
+        outline: none;
+      }
+
+      select {
+        border: 2px solid #007bff;
+      }
+
+      button {
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+      }
+
+      /* Table Styles */
+
+      table {
+        width: auto;
+        border-collapse: collapse;
+        margin: 15px 440px;
+        background: rgba(0, 0, 0, 0.7);
+        display: block;
+        overflow-x: auto;
+      }
+
+      table th,
+      table td {
+        padding: 10px;
+        border: 1px solid #ddd;
+        color: #fff;
+        text-align: center;
+      }
+
+      table th {
+        background-color: #007bff;
+      }
+
+      /* Loading */
+      #loading {
+        display: none;
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      #loading span {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin: 0 4px;
+        background-color: black;
+        border-radius: 50%;
+        animation: blink 1.2s infinite;
+      }
+
+      #loading span:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      #loading span:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+      @keyframes blink {
+        0%,
+        80%,
+        100% {
+          transform: scale(0);
+        }
+        40% {
+          transform: scale(1);
+        }
+      }
+
+      footer {
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Search Between Stations</h1>
+    <!-- NavBar -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <img
+          src="https://www.taxscan.in/wp-content/uploads/2016/11/IRCTC-TaxScan.jpg.webp"
+          alt="IRCTC Logo"
+          class="logo"
+        />
+        <div class="navbar-nav">
+          <a
+            class="nav-link active"
+            aria-current="page"
+            href="Search_Station.html"
+            target="_blank"
+            >Search_Station</a
+          >
+          <a class="nav-link" href="Search_Train.html" target="_blank"
+            >Train_Search</a
+          >
+          <a class="nav-link" href="PNR_Status.html" target="_blank"
+            >PNR_Status</a
+          >
+        </div>
+      </div>
+    </nav>
+    <div id="root">
+      <div id="p1">
+        <select id="startStationDropdown">
+          <option value="" disabled selected>Select Start Station...</option>
+          <option value="Dhone Junction">DHONE</option>
+          <option value="Kurnool City">KURNOOL</option>
+          <option value="SMVT Bengaluru">BENGALURU</option>
+          <option value="Kacheguda">KACHEGUDA</option>
+          <option value="Secunderabad Junction">SECUNDERABAD</option>
+          <option value="Guntakal Junction">GUNTAKAL</option>
+          <option value="Hyderabad Deccan Nampally">DECCAN NAMPALLY</option>
+        </select>
+        <select id="endStationDropdown">
+          <option value="" disabled selected>Select End Station...</option>
+          <option value="Kacheguda">KACHEGUDA</option>
+          <option value="Kurnool City">KURNOOL</option>
+          <option value="Tirupati">TIRUPATI</option>
+          <option value="Kacheguda">DHONE</option>
+          <option value="Secunderabad Junction">SECUNDERABAD</option>
+          <option value="Mumbai LTT">MUMBAI</option>
+          <option value="Chittor">CHITTOR</option>
+          <option value="New Delhi">NEW DELHI</option>
+          <option value="Nandyal Junction">NANDYAL</option>
+          <option value="Vijayawada Junction">VIJAYAWADA</option>
+        </select>
+        <button id="btnSearch">Search Trains</button>
+        <div id="loading"><span></span><span></span><span></span></div>
+        <div id="result"></div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Train Info System | All Rights Reserved</p>
+    </footer>
+    <script>
+      const loading = document.getElementById("loading");
+
+      // Mapping start stations to their respective destinations
+      const stationMapping = {
+        "Dhone Junction": ["Kacheguda"],
+        "Kurnool City": [
+          "Secunderabad Junction",
+          "Chittor",
+          "Nandyal Junction",
+        ],
+        "SMVT Bengaluru": ["Vijayawada Junction"],
+        Kacheguda: ["Tirupati"],
+        "Secunderabad Junction": ["Mumbai LTT", "New Delhi"],
+        "Guntakal Junction": ["Kurnool City"],
+        "Hyderabad Deccan Nampally": ["Kurnool City"],
+      };
+
+      document
+        .getElementById("startStationDropdown")
+        .addEventListener("change", function () {
+          updateDestinationDropdown();
+        });
+
+      function updateDestinationDropdown() {
+        const startStation = document.getElementById(
+          "startStationDropdown"
+        ).value;
+        const endStationDropdown =
+          document.getElementById("endStationDropdown");
+
+        // Clear previous options
+        endStationDropdown.innerHTML = `<option value="" disabled selected>Select End Station...</option>`;
+
+        // Populate valid destination stations
+        if (startStation && stationMapping[startStation]) {
+          stationMapping[startStation].forEach((destination) => {
+            let option = document.createElement("option");
+            option.value = destination;
+            option.textContent = destination.toUpperCase();
+            endStationDropdown.appendChild(option);
+          });
+        }
+      }
+
+      document.getElementById("btnSearch").addEventListener("click", () => {
+        loading.style.display = "block";
+
+        const s1 = document.getElementById("startStationDropdown").value;
+        const s2 = document.getElementById("endStationDropdown").value;
+
+        if (!s1 || !s2) {
+          loading.style.display = "none";
+          alert("Please select both start and end stations!");
+          return;
+        }
+        fetchTrainsBetweenStations(s1, s2);
+        result.innerHTML = "";
+      });
+
+      async function fetchTrainsBetweenStations(s1, s2) {
+        const response = await fetch("https://tdata.onrender.com/train");
+        const data = await response.json();
+        const result = document.getElementById("result");
+
+        // Clear previous results
+        result.innerHTML = "";
+
+        const table = document.createElement("table");
+        table.setAttribute("border", "1");
+
+        // Add table headers
+        table.innerHTML = `
+        <thead>
+            <tr>
+                <th>Train Name</th>
+                <th>Train Number</th>
+                <th>Start Station</th>
+                <th>End Station</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+      `;
+
+        const tableBody = table.querySelector("tbody");
+
+        let hasResults = false;
+        data.forEach((val) => {
+          if (val.Start_Station === s1 && val.End_Station === s2) {
+            hasResults = true;
+
+            loading.style.display = "none";
+
+            const row = document.createElement("tr");
+            row.innerHTML = `
+            <td>${val.Train_Name}</td>
+            <td>${val.Train_Number}</td>
+            <td>${val.Start_Station}</td>
+            <td>${val.End_Station}</td>
+            <td>${val.Depature_Time}</td>
+            <td>${val.Arrival_Time}</td>
+          `;
+            tableBody.append(row);
+          }
+        });
+
+        if (hasResults) {
+          loading.style.display = "none";
+          result.appendChild(table);
+        } else {
+          result.innerHTML =
+            "<p>No trains found between the selected stations.</p>";
+        }
+      }
+    </script>
+  </body>
+</html>

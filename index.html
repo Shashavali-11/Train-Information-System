@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Train Info System</title>
+    <!-- <link rel="stylesheet" href="styles.css"> -->
+    <style>
+      /* General Styles */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f4f4f9;
+        text-align: center;
+      }
+
+      header {
+        background: #007bff;
+        color: white;
+        padding: 15px;
+        font-size: 24px;
+      }
+
+      nav {
+        background: #0056b3;
+        padding: 10px;
+      }
+
+      nav ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+      }
+
+      nav ul li {
+        display: inline;
+      }
+
+      nav ul li a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+        padding: 10px 15px;
+        border-radius: 5px;
+        transition: 0.3s;
+      }
+
+      nav ul li a:hover {
+        background: #003f80;
+      }
+
+      #content {
+        background-image: url("https://t4.ftcdn.net/jpg/10/10/76/21/360_F_1010762121_CTC6bCVY1Z0RMD0fJX6YpAszo6v5Fg0S.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      main {
+        padding: 20px;
+        min-height: 500px;
+      }
+      .booxx {
+        /* border:  2px solid; */
+        height: 100%;
+        width: 100%;
+        display: grid;
+        grid-template-columns: auto auto auto auto;
+        justify-content: space-around;
+      }
+      .boox {
+        padding: 10px;
+        border: 2px solid;
+        height: 250px;
+        width: 250px;
+        background: rgba(0, 0, 0, 0.8);
+        border-radius: 15px;
+      }
+      .boox:hover {
+        cursor: pointer;
+      }
+
+      /* Hover Effect */
+      .boox:hover {
+        transform: scale(1.1); /* Slight zoom effect */
+        box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.5);
+        border-color: #ff6600; /* Change border color */
+      }
+
+      /* Border Animation */
+      @keyframes borderAnimation {
+        0% {
+          border-color: #ff6600;
+        }
+        50% {
+          border-color: #00ffcc;
+        }
+        100% {
+          border-color: #ff6600;
+        }
+      }
+
+      .boox {
+        animation: borderAnimation 3s infinite alternate;
+      }
+
+      /* Fade-in Effect */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Pulsing Effect on Hover */
+      .boox:hover {
+        animation: pulse 1s infinite alternate;
+      }
+
+      @keyframes pulse {
+        from {
+          transform: scale(1);
+        }
+        to {
+          transform: scale(1.05);
+        }
+      }
+
+      img {
+        border-radius: 15px;
+        height: 200px;
+        width: 250px;
+      }
+      .cp {
+        color: white;
+      }
+      .cp:hover {
+        color: black;
+      }
+
+      footer {
+        background: #007bff;
+        color: white;
+        padding: 10px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <header>
+      <h1>🚆 Train Information System 🚆</h1>
+    </header>
+
+    <!-- Navigation Menu -->
+    <nav>
+      <ul>
+        <li>
+          <a
+            class="nav-link active"
+            aria-current="page"
+            href="Search_Station.html"
+            target="_blank"
+            >Search_Station</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="Search_Train.html" target="_blank"
+            >Train_Search</a
+          >
+        </li>
+        <li>
+          <a
+            class="nav-link active"
+            aria-current="page"
+            href="Search_Between_Stations.html"
+            target="_blank"
+            >Search_Between_Stations</a
+          >
+        </li>
+        <li>
+          <a class="nav-link" href="PNR_Status.html" target="_blank"
+            >PNR_Status</a
+          >
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Dynamic Content Section -->
+    <main id="content">
+      <h2>Welcome to Train Information System</h2>
+      <div class="booxx">
+        <div class="boox">
+          <a href="Search_Station.html" target="_blank">
+            <img
+              src="https://images.unsplash.com/photo-1527839321757-ad3a2f2be351?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dHJhaW4lMjBzdGF0aW9ufGVufDB8fDB8fHww"
+              alt="Search_Station"
+            />
+          </a>
+
+          <p class="cp">Search_Station</p>
+        </div>
+        <div class="boox">
+          <a href="Search_Train.html" target="_blank">
+            <img
+              src="https://img.freepik.com/free-photo/cinematic-steam-train-railroad-background_1409-5628.jpg"
+              alt="Search_Train"
+            />
+          </a>
+          <p class="cp">Search_Train</p>
+        </div>
+        <div class="boox">
+          <a href="Search_Between_Stations.html" target="_blank">
+            <img
+              src="https://img.freepik.com/premium-photo/modern-background-with-steam-train-bridge-generative-ai_887552-394.jpg"
+              alt="Search_Between_Stations"
+            />
+          </a>
+          <p class="cp">Search_Between_Stations</p>
+        </div>
+        <div class="boox">
+          <a href="PNR_Status.html" target="_blank">
+            <img
+              src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjG8dc8WShN-UvNkVcki8A4TsZs30EtBSVySen42Ehu0hB6OZb7vo2XeljYZVDp1IGpX0rIz6-FnE2qYMekz0KWrzOBKucYj8T3EHjRnlVC9otymRp-yVaYv9qDLOXl86VHcqyLnGWQwKA/s1600/how-to-check-pnr-status-railway-airlines.jpg"
+              alt="PNR_Status"
+            />
+          </a>
+          <p class="cp">PNR_Status</p>
+        </div>
+      </div>
+
+      <br /><br />
+      <h2><strong>Select an option from the menu to get started.</strong></h2>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2025 Train Info System | All Rights Reserved</p>
+    </footer>
+  </body>
+</html>
